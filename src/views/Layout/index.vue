@@ -1,15 +1,14 @@
 <template>
-  <div>首页--Layout</div>
-  <button @click="increment">{{ count }}</button>
+  <Nav></Nav>
+  <Header></Header>
   <router-view></router-view>
+  <Footer></Footer>
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from 'pinia'
-import { useCounterStore } from '@/stores/Layout/index'
-const store = useCounterStore()
-const { increment } = store
-const { count } = storeToRefs(store)
+import Nav from './components/Nav/index.vue'
+import Header from './components/Header/index.vue'
+import Footer from './components/Footer/index.vue'
 </script>
 
 <style scoped></style>
