@@ -1,8 +1,25 @@
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: () => import('@/views/Home/index.vue')
+    name: 'Layout',
+    component: () => import('@/views/Layout/index.vue'),
+    children: [
+      {
+        path: '',
+        name: 'home',
+        component: () => import('@/views/Layout/Home/index.vue')
+      },
+      {
+        path: 'category',
+        name: 'category',
+        component: () => import('@/views/Layout/Category/index.vue')
+      }
+    ]
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('@/views/Login/index.vue')
   },
   {
     path: '/:pathMatch(.*)*',
