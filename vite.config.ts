@@ -17,13 +17,22 @@ export default defineConfig({
       resolvers: [ElementPlusResolver()]
     }),
     Components({
-      resolvers: [ElementPlusResolver()]
+      resolvers: [
+        ElementPlusResolver({ importStyle: 'sass' })
+      ]
     })
   ],
   resolve: {
     // ↓路径别名
     alias: {
       '@': resolve(__dirname, './src')
+    }
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@use '@/style/element/index.scss' as *;`
+      }
     }
   }
 })
