@@ -1,4 +1,19 @@
-<script setup></script>
+<script setup lang="ts">
+import { reqGetCategory } from '@/apis/category'
+import { ref, onMounted } from 'vue'
+
+const CategoryList = ref([])
+const getCategory = async () => {
+  const res = await reqGetCategory()
+  if (res.code === '1') {
+    CategoryList.value = res.result
+  }
+}
+
+onMounted(() => {
+  getCategory()
+})
+</script>
 
 <template>
   <header class="app-header">
@@ -10,9 +25,9 @@
         <li class="home">
           <RouterLink to="/">首页</RouterLink>
         </li>
-        <li><RouterLink to="/">居家</RouterLink></li>
-        <li><RouterLink to="/">美食</RouterLink></li>
-        <li><RouterLink to="/">服饰</RouterLink></li>
+        <li v-for="item in CategoryList" :key="item['id']">
+          <RouterLink to="/">{{ item['name'] }}</RouterLink>
+        </li>
       </ul>
       <div class="search">
         <i class="iconfont icon-search"></i>

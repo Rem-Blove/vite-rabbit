@@ -26,9 +26,9 @@ module.exports = {
   plugins: ['vue'],
   rules: {
     '@typescript-eslint/promise-function-async': 'off',
-   // 关闭驼峰命名规则
-   'vue/multi-word-component-names': 0,
-   //关闭函数形参前的空格
-   "@typescript-eslint/space-before-function-paren" : 0
+    // 关闭驼峰命名规则
+    'vue/multi-word-component-names': 0,
+    // 关闭函数形参前的空格
+    '@typescript-eslint/space-before-function-paren': 0
   }
 }
