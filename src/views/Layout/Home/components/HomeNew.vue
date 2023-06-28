@@ -44,8 +44,6 @@ onMounted(() => {
   li {
     width: 306px;
     height: 406px;
-
-    background: #f0f9f4;
     transition: all 0.5s;
 
     &:hover {
