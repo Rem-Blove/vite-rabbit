@@ -30,5 +30,6 @@ module.exports = {
     'vue/multi-word-component-names': 0,
     // 关闭函数形参前的空格
     '@typescript-eslint/space-before-function-paren': 0
+    // '@typescript-eslint/explicit-function-return-type': 'off'
   }
 }
