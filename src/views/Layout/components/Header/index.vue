@@ -1,19 +1,5 @@
 <script setup lang="ts">
-import { reqGetCategory } from '@/apis/category'
-import { ref, onMounted } from 'vue'
-import type { Result } from '@/apis/model/type'
-
-const CategoryList = ref([] as Result[])
-const getCategory = async () => {
-  const res = await reqGetCategory()
-  if (res.code === '1') {
-    CategoryList.value = res.result
-  }
-}
-
-onMounted(() => {
-  getCategory()
-})
+const props = defineProps(['CategoryList'])
 </script>
 
 <template>
@@ -26,7 +12,7 @@ onMounted(() => {
         <li class="home">
           <RouterLink to="/">首页</RouterLink>
         </li>
-        <li v-for="item in CategoryList" :key="item.id">
+        <li v-for="item in props.CategoryList" :key="item.id">
           <RouterLink to="/">{{ item.name }}</RouterLink>
         </li>
       </ul>
