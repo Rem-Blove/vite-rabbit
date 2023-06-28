@@ -3,8 +3,8 @@
     <HomeCategory></HomeCategory>
     <HomeBanner></HomeBanner>
   </div>
-  <HomeHot></HomeHot>
   <HomeNew></HomeNew>
+  <HomeHot></HomeHot>
   <HomeProduct></HomeProduct>
 </template>
 
