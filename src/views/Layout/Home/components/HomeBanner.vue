@@ -1,18 +1,30 @@
 <script setup lang="ts">
+import { ref, onMounted } from 'vue'
+import { reqGetBannerList } from '@/apis/home'
 
+const bannerList: any = ref([])
+
+const getBannerList = async () => {
+  const res = await reqGetBannerList()
+  res.code === '1' && (bannerList.value = res.result)
+}
+
+onMounted(() => {
+  getBannerList()
+})
 </script>
 
 <template>
   <div class="home-banner">
     <el-carousel height="500px">
-      <el-carousel-item v-for="item in 4" :key="item">
-        <img src="http://yjy-xiaotuxian-dev.oss-cn-beijing.aliyuncs.com/picture/2021-04-15/6d202d8e-bb47-4f92-9523-f32ab65754f4.jpg" alt="">
+      <el-carousel-item v-for="item in bannerList" :key="item.id">
+        <img :src="item.imgUrl" />
       </el-carousel-item>
     </el-carousel>
   </div>
 </template>
 
-<style scoped lang='scss'>
+<style scoped lang="scss">
 .home-banner {
   width: 1240px;
   height: 500px;
