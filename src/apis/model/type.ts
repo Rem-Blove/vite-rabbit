@@ -1,14 +1,6 @@
-// 一级分类的Ts数据类型
-export interface categoryC1 {
-  code: string
-  msg: string
-  result: []
-}
-
+// 公共的ts数据类型
 export interface Result {
-  id: number
-  name: string
-  picture: string
-  children: []
-  goods: []
+  code: string
+  message: string
+  result: []
 }

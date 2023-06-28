@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { reqGetBannerList } from '@/apis/home'
+import { BannerTsType } from '@/apis/model/banner'
 
-const bannerList: any = ref([])
+const bannerList = ref([] as BannerTsType[])
 
 const getBannerList = async () => {
   const res = await reqGetBannerList()
