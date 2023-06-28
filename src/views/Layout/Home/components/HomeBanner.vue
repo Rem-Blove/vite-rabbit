@@ -26,10 +26,10 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .home-banner {
-  width: 1240px;
+  width: 1040px;
   height: 500px;
   position: absolute;
-  left: 70px;
+  left: 250px;
   top: 0;
   z-index: 98;
 
