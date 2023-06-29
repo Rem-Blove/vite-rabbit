@@ -24,3 +24,11 @@ export const reqGetHotList = (): Promise<Result> => {
     url: '/home/hot'
   })
 }
+
+// 获取所有商品数据
+export const reqGetGoodsList = (): Promise<Result> => {
+  return requests({
+    method: 'get',
+    url: '/home/goods'
+  })
+}

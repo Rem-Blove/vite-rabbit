@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const props = defineProps(['nameInfo'])
+const props = defineProps(['title', 'titleSpan'])
 </script>
 
 <template>
@@ -8,8 +8,8 @@ const props = defineProps(['nameInfo'])
       <div class="head">
         <!-- 主标题和副标题 -->
         <h3>
-          {{ props.nameInfo[0] }}
-          <small>{{ props.nameInfo[1] }}</small>
+          {{ props.title }}
+          <small>{{ props.titleSpan }}</small>
         </h3>
       </div>
       <!-- 主体内容区域 -->

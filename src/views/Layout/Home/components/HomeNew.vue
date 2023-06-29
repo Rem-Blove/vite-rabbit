@@ -1,5 +1,5 @@
 <template>
-  <HomePanel :nameInfo="nameInfo">
+  <HomePanel :title="title" :titleSpan="titleSpan">
     <template v-slot:main>
       <div>
         <ul class="goods-list">
@@ -20,9 +20,10 @@
 import HomePanel from '@/components/HomePanel.vue'
 import { ref, onMounted } from 'vue'
 import { reqGetNewList } from '@/apis/home'
-import { NewTsType } from '@/apis/model/new'
+import { NewTsType } from '@/apis/model/Home/new'
 
-const nameInfo = ref(['新鲜好物', '新鲜出炉 品质靠谱'])
+const title = ref('新鲜好物')
+const titleSpan = ref('新鲜出炉 品质靠谱')
 const NewList = ref([] as NewTsType[])
 
 const getNewList = async () => {

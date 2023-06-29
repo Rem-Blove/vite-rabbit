@@ -1,5 +1,5 @@
 <template>
-  <HomePanel :nameInfo="nameInfo">
+  <HomePanel :title="title" :titleSpan="titleSpan">
     <template v-slot:main>
       <div>
         <ul class="goods-list">
@@ -19,10 +19,11 @@
 <script setup lang="ts">
 import HomePanel from '@/components/HomePanel.vue'
 import { ref, onMounted } from 'vue'
-import { HotTsType } from '@/apis/model/hot'
+import { HotTsType } from '@/apis/model/Home/hot'
 import { reqGetHotList } from '@/apis/home'
 
-const nameInfo = ref(['人气推荐', '人气爆款 不容错过'])
+const title = ref('人气推荐')
+const titleSpan = ref('人气爆款 不容错过')
 const HotList = ref([] as HotTsType[])
 
 const getHotList = async () => {
