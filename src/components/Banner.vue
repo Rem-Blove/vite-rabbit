@@ -6,8 +6,7 @@ import { BannerTsType } from '@/apis/model/Home/banner'
 const bannerList = ref([] as BannerTsType[])
 const props = defineProps({
   distributionSite: {
-    type: String,
-    required: true
+    type: String
   } as {}
 })
 

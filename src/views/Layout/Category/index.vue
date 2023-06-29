@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { reqGetCategoryC1List } from '@/apis/category'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import Banner from '@/components/Banner.vue'
+import GoodsItem from '@/views/Layout/Home/components/HomeGoods.vue'
 
 const CategoryC1List: any = ref({})
 const route = useRoute()
@@ -12,9 +13,14 @@ const getCategoryC1List = async () => {
   res.code === '1' && (CategoryC1List.value = res.result)
 }
 
+watch(route, () => {
+  getCategoryC1List()
+})
+
 onMounted(() => {
   getCategoryC1List()
 })
+
 </script>
 
 <template>
@@ -28,10 +34,30 @@ onMounted(() => {
         </el-breadcrumb>
       </div>
     </div>
-  </div>
-  <div>
     <!-- 轮播图 -->
     <Banner :distributionSite="'2'"></Banner>
+    <div class="sub-list">
+      <h3>全部分类</h3>
+      <ul>
+        <li v-for="i in CategoryC1List.children" :key="i.id">
+          <RouterLink to="/">
+            <img :src="i.picture" />
+            <p>{{ i.name }}</p>
+          </RouterLink>
+        </li>
+      </ul>
+      <div
+        class="ref-goods"
+        v-for="item in CategoryC1List.children"
+        :key="item.id">
+        <div class="head">
+          <h3>- {{ item.name }}-</h3>
+        </div>
+        <div class="body">
+          <GoodsItem v-for="good in item.goods" :goods="good" :key="good.id" />
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -51,7 +77,7 @@ onMounted(() => {
 
     ul {
       display: flex;
-      padding: 0 32px;
+      justify-content: center;
       flex-wrap: wrap;
 
       li {

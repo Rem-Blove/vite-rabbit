@@ -3,16 +3,12 @@ const props = defineProps(['goods'])
 </script>
 
 <template>
-  <ul class="goods-list">
-    <li v-for="good in props.goods" :key="good.id">
-      <RouterLink to="/" class="goods-item">
-        <img v-lazy="good.picture" alt="" />
-        <p class="name ellipsis">{{ good.name }}</p>
-        <p class="desc ellipsis">{{ good.desc }}</p>
-        <p class="price">&yen;{{ good.price }}</p>
-      </RouterLink>
-    </li>
-  </ul>
+  <RouterLink to="/" class="goods-item">
+    <img v-lazy="props.goods.picture" alt="" />
+    <p class="name ellipsis">{{ props.goods.name }}</p>
+    <p class="desc ellipsis">{{ props.goods.desc }}</p>
+    <p class="price">&yen;{{ props.goods.price }}</p>
+  </RouterLink>
 </template>
 
 <style scoped lang="scss">
@@ -21,7 +17,7 @@ const props = defineProps(['goods'])
   width: 220px;
   padding: 20px 30px;
   text-align: center;
-  transition: all 0.5s;
+  transition: all .5s;
 
   &:hover {
     transform: translate3d(0, -3px, 0);
