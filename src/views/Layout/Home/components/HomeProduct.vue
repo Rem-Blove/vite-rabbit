@@ -68,6 +68,7 @@ onMounted(() => {
 
   .box {
     display: flex;
+    margin-left: 50px;
 
     .cover {
       width: 240px;
