@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { inject } from 'vue'
+import { AllTsType } from '@/apis/model/Category/all'
 
-const CategoryList: any = inject('CategoryList')
+const CategoryList = inject('CategoryList') as AllTsType[]
 </script>
 
 <template>

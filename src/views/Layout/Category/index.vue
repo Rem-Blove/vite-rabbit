@@ -4,8 +4,9 @@ import { ref, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import Banner from '@/components/Banner.vue'
 import GoodsItem from '@/views/Layout/Home/components/HomeGoods.vue'
+import { Result } from '@/apis/model//Category/C1'
 
-const CategoryC1List: any = ref({})
+const CategoryC1List = ref({} as Result)
 const route = useRoute()
 
 const getCategoryC1List = async () => {
