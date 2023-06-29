@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { reqGetGoodsList } from '@/apis/home'
-import { ref, onMounted, defineAsyncComponent } from 'vue'
+import { ref, onMounted } from 'vue'
 import { DoodsTsType } from '@/apis/model/Home/goods'
+import HomePanel from '@/components/HomePanel.vue'
+import HomeGoods from './HomeGoods.vue'
 
 const goodsList = ref([] as DoodsTsType[])
-const HomePanel = defineAsyncComponent(
-  () => import('@/components/HomePanel.vue')
-)
 
 const getGoodsList = async () => {
   const res = await reqGetGoodsList()
@@ -34,19 +33,11 @@ onMounted(() => {
               <span>{{ cate.saleInfo }}</span>
             </strong>
           </RouterLink>
-          <ul class="goods-list">
-            <li v-for="good in cate.goods" :key="good.id">
-              <RouterLink to="/" class="goods-item">
-                <img v-lazy="good.picture" alt="" />
-                <p class="name ellipsis">{{ good.name }}</p>
-                <p class="desc ellipsis">{{ good.desc }}</p>
-                <p class="price">&yen;{{ good.price }}</p>
-              </RouterLink>
-            </li>
-          </ul>
+          <!-- 商品右侧 -->
+          <HomeGoods :goods="cate.goods"></HomeGoods>
         </div>
       </template>
-    <!-- 接口失败就提示用户重新刷新页面 -->
+      <!-- 接口失败就提示用户重新刷新页面 -->
     </HomePanel>
     <HomePanel v-show="!goodsList.length" :title="'加载失败，请刷新页面重试'" />
   </div>
@@ -139,41 +130,6 @@ onMounted(() => {
       }
     }
 
-    .goods-item {
-      display: block;
-      width: 220px;
-      padding: 20px 30px;
-      text-align: center;
-      transition: all 0.5s;
-
-      &:hover {
-        transform: translate3d(0, -3px, 0);
-        box-shadow: 0 3px 8px rgb(0 0 0 / 20%);
-      }
-
-      img {
-        width: 160px;
-        height: 160px;
-      }
-
-      p {
-        padding-top: 10px;
-      }
-
-      .name {
-        font-size: 16px;
-      }
-
-      .desc {
-        color: #999;
-        height: 29px;
-      }
-
-      .price {
-        color: $priceColor;
-        font-size: 20px;
-      }
-    }
   }
 }
 </style>
