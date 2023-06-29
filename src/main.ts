@@ -12,6 +12,7 @@ createApp(App)
   .use(router)
   .use(pinia)
   .use(VueLazyload, {
+    error: Rem,
     loading: Rem,
     attempt: 3
   })

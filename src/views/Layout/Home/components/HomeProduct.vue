@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import HomePanel from '@/components/HomePanel.vue'
 import { reqGetGoodsList } from '@/apis/home'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, defineAsyncComponent } from 'vue'
 import { DoodsTsType } from '@/apis/model/Home/goods'
 
 const goodsList = ref([] as DoodsTsType[])
+const HomePanel = defineAsyncComponent(
+  () => import('@/components/HomePanel.vue')
+)
 
 const getGoodsList = async () => {
   const res = await reqGetGoodsList()
@@ -18,7 +20,11 @@ onMounted(() => {
 
 <template>
   <div class="home-product">
-    <HomePanel :title="cate.name" v-for="cate in goodsList" :key="cate.id">
+    <HomePanel
+      :title="cate.name"
+      v-for="cate in goodsList"
+      :key="cate.id"
+      v-show="goodsList.length">
       <template v-slot:main>
         <div class="box">
           <RouterLink class="cover" to="/">
@@ -40,7 +46,9 @@ onMounted(() => {
           </ul>
         </div>
       </template>
+    <!-- 接口失败就提示用户重新刷新页面 -->
     </HomePanel>
+    <HomePanel v-show="!goodsList.length" :title="'加载失败，请刷新页面重试'" />
   </div>
 </template>
 
