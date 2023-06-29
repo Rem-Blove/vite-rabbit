@@ -4,9 +4,15 @@ import { reqGetBannerList } from '@/apis/home'
 import { BannerTsType } from '@/apis/model/Home/banner'
 
 const bannerList = ref([] as BannerTsType[])
+const props = defineProps({
+  distributionSite: {
+    type: String,
+    required: true
+  } as {}
+})
 
 const getBannerList = async () => {
-  const res = await reqGetBannerList()
+  const res = await reqGetBannerList(props.distributionSite as string)
   res.code === '1' && (bannerList.value = res.result)
 }
 
@@ -16,7 +22,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="home-banner">
+  <div class="home-banner" :class="{ 'remBanner': props.distributionSite === '2' }">
     <el-carousel height="500px">
       <el-carousel-item v-for="item in bannerList" :key="item.id">
         <img :src="item.imgUrl" />
@@ -38,5 +44,9 @@ onMounted(() => {
     width: 100%;
     height: 500px;
   }
+}
+.remBanner {
+  margin: 0 auto;
+  position: static;
 }
 </style>

@@ -2,10 +2,10 @@
 import { reqGetCategoryC1List } from '@/apis/category'
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-
-const route = useRoute()
+import Banner from '@/components/Banner.vue'
 
 const CategoryC1List: any = ref({})
+const route = useRoute()
 
 const getCategoryC1List = async () => {
   const res = await reqGetCategoryC1List(route.params.id as string)
@@ -28,6 +28,10 @@ onMounted(() => {
         </el-breadcrumb>
       </div>
     </div>
+  </div>
+  <div>
+    <!-- 轮播图 -->
+    <Banner :distributionSite="'2'"></Banner>
   </div>
 </template>
 
