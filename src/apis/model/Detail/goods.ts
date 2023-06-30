@@ -1,4 +1,4 @@
-
+// views Detail index.vue detailList ts数据类型
 export interface DetailTsType {
   /**
    * 商品品牌

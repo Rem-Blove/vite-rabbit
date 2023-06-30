@@ -3,6 +3,7 @@ import { ref, onMounted } from 'vue'
 import { reqGetDetailList } from '@/apis/detail'
 import { useRoute } from 'vue-router'
 import type { DetailTsType } from '@/apis/model/Detail/goods'
+import DetailHot from './components/DetailHot.vue'
 
 const detailList = ref({} as DetailTsType)
 const route = useRoute()
@@ -10,7 +11,6 @@ const getDetailList = async () => {
   const res = await reqGetDetailList(route.params.id as string)
   res.code = '1' && (detailList.value = res.result)
 }
-
 onMounted(() => {
   getDetailList()
 })
@@ -135,7 +135,10 @@ onMounted(() => {
               </div>
             </div>
             <!-- 24热榜+专题推荐 -->
-            <div class="goods-aside"></div>
+            <div class="goods-aside">
+              <DetailHot title="24小时热榜" type="1" :id="$route.params.id" />
+              <DetailHot title="专题推荐" type="2" :id="$route.params.id" />
+            </div>
           </div>
         </div>
       </div>
