@@ -29,11 +29,21 @@ export const reqGetCategorySubList = (id: string): Promise<ResultObject> => {
     }
   })
 }
-// 获取sub分类商品的数据
-export const reqGetGoodList = (data: object[]): any => {
+
+/**
+ * @description: 获取导航数据
+ * @data {
+     categoryId: 1005000 ,
+     page: 1,
+     pageSize: 20,
+     sortField: 'publishTime' | 'orderNum' | 'evaluateNum'
+   }
+ * @return {*}
+ */
+export const reqGetSubCategoryAPI = (data: object): any => {
   return requests({
-    method: 'get',
-    url: '/home/goods',
-    params: data
+    method: 'post',
+    url: '/category/goods/temporary',
+    data
   })
 }
