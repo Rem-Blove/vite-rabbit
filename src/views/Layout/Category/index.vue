@@ -15,13 +15,12 @@ const getCategoryC1List = async () => {
 }
 
 watch(route, () => {
-  getCategoryC1List()
+  route.name === 'category' && getCategoryC1List()
 })
 
 onMounted(() => {
   getCategoryC1List()
 })
-
 </script>
 
 <template>
@@ -41,7 +40,7 @@ onMounted(() => {
       <h3>全部分类</h3>
       <ul>
         <li v-for="i in CategoryC1List.children" :key="i.id">
-          <RouterLink to="/">
+          <RouterLink :to="`/category/sub/${i.id}`">
             <img :src="i.picture" />
             <p>{{ i.name }}</p>
           </RouterLink>
