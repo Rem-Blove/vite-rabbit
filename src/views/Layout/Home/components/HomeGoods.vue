@@ -1,13 +1,13 @@
 <script setup lang="ts">
-const props = defineProps(['goods'])
+defineProps(['goods'])
 </script>
 
 <template>
   <RouterLink to="/" class="goods-item">
-    <img v-lazy="props.goods.picture" alt="" />
-    <p class="name ellipsis">{{ props.goods.name }}</p>
-    <p class="desc ellipsis">{{ props.goods.desc }}</p>
-    <p class="price">&yen;{{ props.goods.price }}</p>
+    <img v-lazy="goods.picture" alt="" />
+    <p class="name ellipsis">{{ goods.name }}</p>
+    <p class="desc ellipsis">{{ goods.desc }}</p>
+    <p class="price">&yen;{{ goods.price }}</p>
   </RouterLink>
 </template>
 

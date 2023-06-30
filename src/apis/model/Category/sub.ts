@@ -9,6 +9,7 @@ export interface subTsType {
   categories: CategoriesItem[]
   brands: any[]
   saleProperties: any[]
+  value?: any
 }
 
 export interface CategoriesItem {

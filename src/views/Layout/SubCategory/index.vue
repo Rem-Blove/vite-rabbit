@@ -20,7 +20,7 @@ onMounted(() => {
 })
 
 // 获取基本商品数据
-const goodList = ref({} as subGoodTsType)
+const goodList = ref([] as subGoodTsType[])
 const data = ref({
   categoryId: route.params.id,
   page: 1,
@@ -30,7 +30,7 @@ const data = ref({
 
 const getGoodsList = async () => {
   const res = await reqGetSubCategoryAPI(data)
-  res.code === '1' && (goodList.value = res.result)
+  res.code === '1' && (goodList.value = res.result.items)
 }
 
 onMounted(() => {
@@ -42,6 +42,18 @@ const changeTab = (val: any) => {
   data.value.sortField = val
   data.value.page = 1
   getGoodsList()
+}
+
+const flag = ref(false)
+const load = async () => {
+  data.value.page++
+  const res = await reqGetSubCategoryAPI(data.value)
+  try {
+    goodList.value = [...goodList.value, ...res.result.items]
+    if (res.result.items.length === 0) {
+      flag.value = true
+    }
+  } catch (error) {}
 }
 </script>
 
@@ -63,12 +75,12 @@ const changeTab = (val: any) => {
         <el-tab-pane label="最高人气" name="orderNum"></el-tab-pane>
         <el-tab-pane label="评论最多" name="evaluateNum"></el-tab-pane>
       </el-tabs>
-      <div class="body">
+      <div
+        class="body"
+        v-infinite-scroll="load"
+        :infinite-scroll-disabled="flag">
         <!-- 商品列表-->
-        <GoodsItem
-          v-for="item in goodList.items"
-          :goods="item"
-          :key="item.id" />
+        <GoodsItem v-for="item in goodList" :goods="item" :key="item.id" />
       </div>
     </div>
   </div>

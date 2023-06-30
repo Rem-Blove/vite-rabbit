@@ -1,5 +1,6 @@
 // Layout SubCategory goodsList ts数据类型
 export interface subGoodTsType {
+  id?: string
   counts: number
   pageSize: number
   pages: number
