@@ -36,8 +36,6 @@ watch([elementX, elementY], () => {
 
   elementY.value > 300 && (top.value = 300)
   elementY.value < 100 && (top.value = 100)
-}, {
-  immediate: true
 })
 </script>
 

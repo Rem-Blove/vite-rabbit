@@ -5,6 +5,7 @@ import { useRoute } from 'vue-router'
 import type { DetailTsType } from '@/apis/model/Detail/goods'
 import DetailHot from './components/DetailHot.vue'
 import DetailImage from './components/DetailImage.vue'
+import XtxSku from '@/components/XtxSku/index.vue'
 
 const detailList = ref({} as DetailTsType)
 const route = useRoute()
@@ -16,10 +17,13 @@ const getDetailList = async () => {
     mainPictures.value = res.result.mainPictures as string[]
   }
 }
-
 onMounted(() => {
   getDetailList()
 })
+
+const skuChange = (sku:object) => {
+  console.log(sku)
+}
 </script>
 
 <template>
@@ -106,7 +110,7 @@ onMounted(() => {
                 </dl>
               </div>
               <!-- sku组件 -->
-
+              <XtxSku :goods="detailList" @change="skuChange"/>
               <!-- 数据组件 -->
 
               <!-- 按钮组件 -->
