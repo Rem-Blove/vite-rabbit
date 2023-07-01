@@ -4,3 +4,10 @@ export interface Result {
   message: string
   result: []
 }
+export interface ResultObject {
+  code: string
+  message: string
+  result: {
+    mainPictures?: string[]
+  }
+}

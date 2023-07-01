@@ -1,9 +1,10 @@
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { fetchHotGoodsAPI } from '@/apis/detail'
+import { HotTsType } from '@/apis/model/Detail/Hot'
 
 const props = defineProps(['title', 'type', 'id'])
-const hotGoodsList = ref([])
+const hotGoodsList = ref([] as HotTsType[])
 const getHotGoodsList = async () => {
   const res = await fetchHotGoodsAPI(props.id, props.type, 3)
   res.code === '1' && (hotGoodsList.value = res.result)

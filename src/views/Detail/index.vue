@@ -8,14 +8,19 @@ import DetailImage from './components/DetailImage.vue'
 
 const detailList = ref({} as DetailTsType)
 const route = useRoute()
-const mainPictures = ref([])
+const mainPictures = ref([] as string[])
 const getDetailList = async () => {
   const res = await reqGetDetailList(route.params.id as string)
-  res.code =
-    '1' &&
-    (detailList.value = res.result) &&
-    (mainPictures.value = res.result.mainPictures)
+  if (res.code === '1') {
+    detailList.value = res.result as any
+    mainPictures.value = res.result.mainPictures as string[]
+  }
 }
+//   res.code =
+//     '1' &&
+//     (detailList.value = res.result as any) &&
+//     (mainPictures.value = res.result.mainPictures)
+// }
 onMounted(() => {
   getDetailList()
 })

@@ -1,11 +1,12 @@
 import requests from '@/utils/request'
+import type { Result, ResultObject } from './model/type'
 
 /**
  * @description: 获取goods详情页数据
  * @param {*} id 分类id
  * @return {*}
  */
-export const reqGetDetailList = (id: string): any =>
+export const reqGetDetailList = (id: string): Promise<ResultObject> =>
   requests({
     method: 'get',
     url: '/goods',
@@ -24,7 +25,7 @@ export const fetchHotGoodsAPI = (
   id: string,
   type: number,
   limit: number = 3
-): any => {
+): Promise<Result> => {
   return requests({
     url: '/goods/hot',
     params: {
