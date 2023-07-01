@@ -2,7 +2,6 @@
 import { reqGetCategoryC1List } from '@/apis/category'
 import { ref, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import Banner from '@/components/Banner.vue'
 import GoodsItem from '@/views/Layout/Home/components/HomeGoods.vue'
 import { Result } from '@/apis/model//Category/C1'
 

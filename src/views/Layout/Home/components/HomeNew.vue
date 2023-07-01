@@ -17,7 +17,6 @@
 </template>
 
 <script setup lang="ts">
-import HomePanel from '@/components/HomePanel.vue'
 import { ref, onMounted } from 'vue'
 import { reqGetNewList } from '@/apis/home'
 import { NewTsType } from '@/apis/model/Home/new'

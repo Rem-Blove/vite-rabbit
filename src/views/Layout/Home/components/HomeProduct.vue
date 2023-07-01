@@ -2,7 +2,6 @@
 import { reqGetGoodsList } from '@/apis/home'
 import { ref, onMounted } from 'vue'
 import { DoodsTsType } from '@/apis/model/Home/goods'
-import HomePanel from '@/components/HomePanel.vue'
 import HomeGoods from './HomeGoods.vue'
 
 const goodsList = ref([] as DoodsTsType[])

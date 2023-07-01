@@ -5,7 +5,6 @@ import { useRoute } from 'vue-router'
 import type { DetailTsType } from '@/apis/model/Detail/goods'
 import DetailHot from './components/DetailHot.vue'
 import DetailImage from './components/DetailImage.vue'
-import XtxSku from '@/components/XtxSku/index.vue'
 
 const detailList = ref({} as DetailTsType)
 const route = useRoute()

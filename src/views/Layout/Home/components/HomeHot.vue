@@ -17,7 +17,6 @@
 </template>
 
 <script setup lang="ts">
-import HomePanel from '@/components/HomePanel.vue'
 import { ref, onMounted } from 'vue'
 import { HotTsType } from '@/apis/model/Home/hot'
 import { reqGetHotList } from '@/apis/home'
