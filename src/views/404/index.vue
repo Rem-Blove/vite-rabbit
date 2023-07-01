@@ -1,10 +1,10 @@
 <template>
   <div class="tcy_404 container">
-    <img src="./4.png" />
+    <img src="./4.png" >
     <h2>小笨蛋，页面跑偏啦～</h2>
     <p>你可以选择刷新页面或者返回主页</p>
     <a class="btn btn-primary btn_blue">返回</a>
-    <p></p>
+    <p/>
     <p>
       <a class="btn btn-primary btn_blue">联系网站管理员</a>
     </p>

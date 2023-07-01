@@ -27,7 +27,7 @@ onMounted(() => {
       <template v-slot:main>
         <div class="box">
           <RouterLink class="cover" to="/">
-            <img v-lazy="cate.picture" />
+            <img v-lazy="cate.picture" >
             <strong class="label">
               <span>{{ cate.name }}馆</span>
               <span>{{ cate.saleInfo }}</span>

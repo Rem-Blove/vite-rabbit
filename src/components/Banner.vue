@@ -24,7 +24,7 @@ onMounted(() => {
   <div class="home-banner" :class="{ 'remBanner': props.distributionSite === '2' }">
     <el-carousel height="500px">
       <el-carousel-item v-for="item in bannerList" :key="item.id">
-        <img :src="item.imgUrl" />
+        <img :src="item.imgUrl" >
       </el-carousel-item>
     </el-carousel>
   </div>

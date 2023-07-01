@@ -21,7 +21,7 @@ onMounted(() => {
       class="goods-item"
       v-for="item in hotGoodsList"
       :key="item.id">
-      <img :src="item.picture" alt="" />
+      <img :src="item.picture" alt="" >
       <p class="name ellipsis">{{ item.name }}</p>
       <p class="desc ellipsis">{{ item.desc }}</p>
       <p class="price">&yen;{{ item.price }}</p>

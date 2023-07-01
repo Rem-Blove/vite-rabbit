@@ -35,13 +35,13 @@ onMounted(() => {
       </div>
     </div>
     <!-- 轮播图 -->
-    <Banner :distributionSite="'2'"></Banner>
+    <Banner :distributionSite="'2'"/>
     <div class="sub-list">
       <h3>全部分类</h3>
       <ul>
         <li v-for="i in CategoryC1List.children" :key="i.id">
           <RouterLink :to="`/category/sub/${i.id}`">
-            <img :src="i.picture" />
+            <img :src="i.picture" >
             <p>{{ i.name }}</p>
           </RouterLink>
         </li>

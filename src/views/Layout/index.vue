@@ -1,9 +1,9 @@
 <template>
-  <Fixed :CategoryList="CategoryList"></Fixed>
-  <Nav></Nav>
-  <Header :CategoryList="CategoryList"></Header>
-  <router-view></router-view>
-  <Footer></Footer>
+  <Fixed :CategoryList="CategoryList"/>
+  <Nav/>
+  <Header :CategoryList="CategoryList"/>
+  <router-view/>
+  <Footer/>
 </template>
 
 <script setup lang="ts">
@@ -24,7 +24,6 @@ provide('CategoryList', CategoryList)
 onMounted(() => {
   store.getCategory()
 })
-
 </script>
 
 <style scoped></style>

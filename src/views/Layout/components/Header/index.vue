@@ -17,8 +17,8 @@ const props = defineProps(['CategoryList'])
         </li>
       </ul>
       <div class="search">
-        <i class="iconfont icon-search"></i>
-        <input type="text" placeholder="搜一搜" />
+        <i class="iconfont icon-search"/>
+        <input type="text" placeholder="搜一搜" >
       </div>
       <!-- 头部购物车 -->
     </div>

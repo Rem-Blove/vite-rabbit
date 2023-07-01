@@ -1,11 +1,11 @@
 <template>
   <div class="container">
-    <HomeCategory></HomeCategory>
-    <Banner></Banner>
+    <HomeCategory/>
+    <Banner/>
   </div>
-  <HomeNew></HomeNew>
-  <HomeHot></HomeHot>
-  <HomeProduct></HomeProduct>
+  <HomeNew/>
+  <HomeHot/>
+  <HomeProduct/>
 </template>
 
 <script setup lang="ts">

@@ -7,7 +7,7 @@
         <template v-if="true">
           <li>
             <a href="javascript:;">
-              <i class="iconfont icon-user"></i>
+              <i class="iconfont icon-user"/>
               周杰伦
             </a>
           </li>

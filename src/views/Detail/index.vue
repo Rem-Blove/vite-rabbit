@@ -4,12 +4,17 @@ import { reqGetDetailList } from '@/apis/detail'
 import { useRoute } from 'vue-router'
 import type { DetailTsType } from '@/apis/model/Detail/goods'
 import DetailHot from './components/DetailHot.vue'
+import DetailImage from './components/DetailImage.vue'
 
 const detailList = ref({} as DetailTsType)
 const route = useRoute()
+const mainPictures = ref([])
 const getDetailList = async () => {
   const res = await reqGetDetailList(route.params.id as string)
-  res.code = '1' && (detailList.value = res.result)
+  res.code =
+    '1' &&
+    (detailList.value = res.result) &&
+    (mainPictures.value = res.result.mainPictures)
 }
 onMounted(() => {
   getDetailList()
@@ -39,14 +44,14 @@ onMounted(() => {
           <div class="goods-info">
             <div class="media">
               <!-- 图片预览区 -->
-
+              <DetailImage :mainPictures="mainPictures"/>
               <!-- 统计数量 -->
               <ul class="goods-sales">
                 <li>
                   <p>销量人气</p>
                   <p>{{ detailList.salesCount }}+</p>
                   <p>
-                    <i class="iconfont icon-task-filling"></i>
+                    <i class="iconfont icon-task-filling"/>
                     销量人气
                   </p>
                 </li>
@@ -54,7 +59,7 @@ onMounted(() => {
                   <p>商品评价</p>
                   <p>{{ detailList.commentCount }}+</p>
                   <p>
-                    <i class="iconfont icon-comment-filling"></i>
+                    <i class="iconfont icon-comment-filling"/>
                     查看评价
                   </p>
                 </li>
@@ -62,7 +67,7 @@ onMounted(() => {
                   <p>收藏人气</p>
                   <p>{{ detailList.collectCount }}+</p>
                   <p>
-                    <i class="iconfont icon-favorite-filling"></i>
+                    <i class="iconfont icon-favorite-filling"/>
                     收藏商品
                   </p>
                 </li>
@@ -70,7 +75,7 @@ onMounted(() => {
                   <p>品牌信息</p>
                   <p>{{ detailList.brand?.name }}+</p>
                   <p>
-                    <i class="iconfont icon-dynamic-filling"></i>
+                    <i class="iconfont icon-dynamic-filling"/>
                     品牌主页
                   </p>
                 </li>
@@ -130,7 +135,7 @@ onMounted(() => {
                   <img
                     :src="item"
                     v-for="(item, index) in detailList.details?.pictures"
-                    :key="index" />
+                    :key="index" >
                 </div>
               </div>
             </div>

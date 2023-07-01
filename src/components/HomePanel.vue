@@ -14,7 +14,7 @@ const props = defineProps(['title', 'titleSpan'])
       </div>
       <!-- 主体内容区域 -->
       <!-- 插槽数据来源于父亲 -->
-      <slot name="main"></slot>
+      <slot name="main"/>
     </div>
   </div>
 </template>
