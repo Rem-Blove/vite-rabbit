@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { ElMessage } from 'element-plus'
 
 const requests = axios.create({
   baseURL: 'http://pcapi-xiaotuxian-front-devtest.itheima.net',
@@ -27,6 +28,10 @@ requests.interceptors.response.use(
   function (error) {
     // 超出 2xx 范围的状态码都会触发该函数。
     // 对响应错误做点什么
+    ElMessage({
+      type: 'error',
+      message: error.response.data.msg
+    })
     return Promise.reject(error)
   }
 )
