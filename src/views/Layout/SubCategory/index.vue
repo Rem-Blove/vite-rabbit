@@ -38,7 +38,7 @@ onMounted(() => {
 })
 
 // tab栏切换展示数据
-const changeTab = (val: any) => {
+const changeTab = (val: string) => {
   data.value.sortField = val
   data.value.page = 1
   getGoodsList()

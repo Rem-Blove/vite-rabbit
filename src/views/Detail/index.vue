@@ -16,11 +16,7 @@ const getDetailList = async () => {
     mainPictures.value = res.result.mainPictures as string[]
   }
 }
-//   res.code =
-//     '1' &&
-//     (detailList.value = res.result as any) &&
-//     (mainPictures.value = res.result.mainPictures)
-// }
+
 onMounted(() => {
   getDetailList()
 })
