@@ -23,10 +23,11 @@ watch(
 // 放大镜
 const target = ref(null)
 const { elementX, elementY, isOutside } = useMouseInElement(target)
-const left = ref(0)
-const top = ref(0)
+const left = ref(100)
+const top = ref(100)
 
 watch([elementX, elementY], () => {
+  if (isOutside.value) return
   elementX.value > 100 && elementX.value < 300 && (left.value = elementX.value)
   elementY.value > 100 && elementY.value < 300 && (top.value = elementY.value)
 
@@ -35,6 +36,8 @@ watch([elementX, elementY], () => {
 
   elementY.value > 300 && (top.value = 300)
   elementY.value < 100 && (top.value = 100)
+}, {
+  immediate: true
 })
 </script>
 
