@@ -5,6 +5,7 @@ import { useRoute } from 'vue-router'
 import type { DetailTsType } from '@/apis/model/Detail/goods'
 import DetailHot from './components/DetailHot.vue'
 import DetailImage from './components/DetailImage.vue'
+import { useCartStore } from '@/stores/cart/index'
 
 const detailList = ref({} as DetailTsType)
 const route = useRoute()
@@ -20,8 +21,30 @@ onMounted(() => {
   getDetailList()
 })
 
-const skuChange = (sku:object) => {
-  console.log(sku)
+let skuObj: any = {}
+const skuChange = (sku: object) => {
+  skuObj = sku
+}
+
+const num = ref(1)
+
+const cartStore = useCartStore()
+const addCart = () => {
+  const goods = {
+    id: detailList.value.id,
+    name: detailList.value.name,
+    picture: detailList.value.mainPictures[0],
+    price: detailList.value.price,
+    count: num.value,
+    skuId: skuObj.skuId,
+    attrsText: skuObj.specsText,
+    selected: true
+  }
+  if (skuObj.skuId) {
+    cartStore.addCart(goods, num)
+  } else {
+    alert('请选择规格')
+  }
 }
 </script>
 
@@ -48,14 +71,14 @@ const skuChange = (sku:object) => {
           <div class="goods-info">
             <div class="media">
               <!-- 图片预览区 -->
-              <DetailImage :mainPictures="mainPictures"/>
+              <DetailImage :mainPictures="mainPictures" />
               <!-- 统计数量 -->
               <ul class="goods-sales">
                 <li>
                   <p>销量人气</p>
                   <p>{{ detailList.salesCount }}+</p>
                   <p>
-                    <i class="iconfont icon-task-filling"/>
+                    <i class="iconfont icon-task-filling" />
                     销量人气
                   </p>
                 </li>
@@ -63,7 +86,7 @@ const skuChange = (sku:object) => {
                   <p>商品评价</p>
                   <p>{{ detailList.commentCount }}+</p>
                   <p>
-                    <i class="iconfont icon-comment-filling"/>
+                    <i class="iconfont icon-comment-filling" />
                     查看评价
                   </p>
                 </li>
@@ -71,7 +94,7 @@ const skuChange = (sku:object) => {
                   <p>收藏人气</p>
                   <p>{{ detailList.collectCount }}+</p>
                   <p>
-                    <i class="iconfont icon-favorite-filling"/>
+                    <i class="iconfont icon-favorite-filling" />
                     收藏商品
                   </p>
                 </li>
@@ -79,7 +102,7 @@ const skuChange = (sku:object) => {
                   <p>品牌信息</p>
                   <p>{{ detailList.brand?.name }}+</p>
                   <p>
-                    <i class="iconfont icon-dynamic-filling"/>
+                    <i class="iconfont icon-dynamic-filling" />
                     品牌主页
                   </p>
                 </li>
@@ -109,12 +132,14 @@ const skuChange = (sku:object) => {
                 </dl>
               </div>
               <!-- sku组件 -->
-              <XtxSku :goods="detailList" @change="skuChange"/>
+              <XtxSku :goods="detailList" @change="skuChange" />
               <!-- 数据组件 -->
-
+              <el-input-number v-model="num" :min="1" :max="99" class="mx-4" />
               <!-- 按钮组件 -->
               <div>
-                <el-button size="large" class="btn">加入购物车</el-button>
+                <el-button size="large" class="btn" @click="addCart">
+                  加入购物车
+                </el-button>
               </div>
             </div>
           </div>

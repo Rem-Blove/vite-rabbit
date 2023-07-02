@@ -29,6 +29,7 @@ module.exports = {
     'vue/multi-word-component-names': 0,
     // 关闭函数形参前的空格
     '@typescript-eslint/space-before-function-paren': 0,
+    '@typescript-eslint/strict-boolean-expressions': 0,
     // 没有子元素，自动使用闭合单标签
     'vue/html-self-closing': ['warn', {
       html: {
