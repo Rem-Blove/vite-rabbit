@@ -32,6 +32,11 @@ const routes = [
     component: () => import('@/views/Login/index.vue')
   },
   {
+    path: '/cartlist',
+    name: 'cartlist',
+    component: () => import('@/views/cart/index.vue')
+  },
+  {
     path: '/:pathMatch(.*)*',
     redirect: '/404'
   },
