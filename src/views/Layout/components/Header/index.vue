@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import HeaderCart from './HeaderCart.vue'
 const props = defineProps(['CategoryList'])
 </script>
 
@@ -21,6 +22,7 @@ const props = defineProps(['CategoryList'])
         <input type="text" placeholder="搜一搜" >
       </div>
       <!-- 头部购物车 -->
+      <HeaderCart/>
     </div>
   </header>
 </template>
