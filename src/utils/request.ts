@@ -2,6 +2,7 @@ import axios from 'axios'
 import { ElMessage } from 'element-plus'
 import nProgress from 'nprogress'
 import 'nprogress/nprogress.css'
+import { getToken } from './token'
 
 const requests = axios.create({
   baseURL: 'http://pcapi-xiaotuxian-front-devtest.itheima.net',
@@ -11,7 +12,13 @@ const requests = axios.create({
 // 添加请求拦截器
 requests.interceptors.request.use(
   function (config) {
+    const token = getToken()
     // 在发送请求之前做些什么
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+    if (token) {
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+      config.headers.Authorization = `Bearer ${token}`
+    }
     nProgress.start()
     return config
   },

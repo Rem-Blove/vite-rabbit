@@ -34,13 +34,12 @@ const rules = reactive({
     }
   ]
 })
-const form = ref()
+const form = ref(null) as any
 const loginStore = useLoginStore()
 const router = useRouter()
 
-const goLogin = async (formEl: { validate: CallableFunction }) => {
-  if (!formEl) return
-  await formEl.validate(async (valid: boolean) => {
+const goLogin = () => {
+  form.value.validate(async (valid: boolean) => {
     if (valid) {
       const res = await loginStore.getUserInfo(formInfo)
       if (res.code === '1' || res === 'ok') {
@@ -95,7 +94,7 @@ const goLogin = async (formEl: { validate: CallableFunction }) => {
                   我已同意隐私条款和服务条款
                 </el-checkbox>
               </el-form-item>
-              <el-button size="large" class="subBtn" @click="goLogin(form)">
+              <el-button size="large" class="subBtn" @click="goLogin">
                 点击登录
               </el-button>
             </el-form>
