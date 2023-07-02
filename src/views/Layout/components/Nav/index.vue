@@ -1,21 +1,34 @@
-<script setup></script>
+<script setup lang="ts">
+import { getUserName, removeUserName } from '@/utils/userInfo'
+import { removeToken } from '@/utils/token'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const logout = () => {
+  removeToken()
+  removeUserName()
+  router.push('/login')
+}
+</script>
 
 <template>
   <nav class="app-topnav">
     <div class="container">
       <ul>
-        <template v-if="true">
+        <template v-if="getUserName()">
           <li>
             <a href="javascript:;">
-              <i class="iconfont icon-user"/>
-              周杰伦
+              <i class="iconfont icon-user" />
+              {{ getUserName() }}
             </a>
           </li>
           <li>
             <el-popconfirm
               title="确认退出吗?"
               confirm-button-text="确认"
-              cancel-button-text="取消">
+              cancel-button-text="取消"
+              @confirm="logout">
               <template #reference>
                 <a href="javascript:;">退出登录</a>
               </template>
@@ -25,7 +38,7 @@
           <li><a href="javascript:;">会员中心</a></li>
         </template>
         <template v-else>
-          <li><a href="javascript:;">请先登录</a></li>
+          <li><RouterLink to="/login">请先登录</RouterLink></li>
           <li><a href="javascript:;">帮助中心</a></li>
           <li><a href="javascript:;">关于我们</a></li>
         </template>

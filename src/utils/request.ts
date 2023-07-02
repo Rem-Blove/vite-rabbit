@@ -1,5 +1,7 @@
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
+import nProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 
 const requests = axios.create({
   baseURL: 'http://pcapi-xiaotuxian-front-devtest.itheima.net',
@@ -10,6 +12,7 @@ const requests = axios.create({
 requests.interceptors.request.use(
   function (config) {
     // 在发送请求之前做些什么
+    nProgress.start()
     return config
   },
   function (error) {
@@ -23,6 +26,7 @@ requests.interceptors.response.use(
   function (response) {
     // 2xx 范围内的状态码都会触发该函数。
     // 对响应数据做点什么
+    nProgress.done()
     return response.data
   },
   function (error) {

@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
-import { reqLogin } from '@/apis/Login'
 import { useRouter } from 'vue-router'
+import { useLoginStore } from '@/stores/Login/index'
 
-const router = useRouter()
 const formInfo = reactive({
-  userName: '',
-  password: '',
+  userName: 'xiaotuxian001',
+  password: '123456',
   TOS: false
 })
 const rules = reactive({
@@ -36,22 +35,20 @@ const rules = reactive({
   ]
 })
 const form = ref()
+const loginStore = useLoginStore()
+const router = useRouter()
+
 const goLogin = async (formEl: { validate: CallableFunction }) => {
   if (!formEl) return
-  await formEl.validate((valid: boolean) => {
+  await formEl.validate(async (valid: boolean) => {
     if (valid) {
-      login()
+      const res = await loginStore.login(formInfo)
+      if (res.code === '1' || res === 'ok') {
+        router.push('/')
+        ElMessage.success('登录成功')
+      }
     }
   })
-}
-const userInfo = ref({})
-const login = async () => {
-  const res = await reqLogin(formInfo.userName, formInfo.password)
-  if (res.code === '1') {
-    ElMessage.success('登录成功')
-    userInfo.value = res.result
-    router.push('/')
-  }
 }
 </script>
 
