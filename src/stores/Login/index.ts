@@ -7,23 +7,20 @@ import { setUserName } from '@/utils/userInfo'
 export const useLoginStore = defineStore('login', () => {
   const userInfo = ref({})
   const token = ref(getToken())
-  const login = async (formInfo: any): Promise<any> => {
-    const { userName, password } = formInfo
-    const res = await reqLogin(userName, password)
+  const getUserInfo = async ({ userName, password }: any): Promise<any> => {
+    const res = await reqLogin({ account: userName, password })
     if (res.code === '1') {
       userInfo.value = res.result
       setUserName(res.result.account)
       // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (token.value) return 'ok'
-      else {
-        setToken(res.result.token)
-      }
+      else setToken(res.result.token)
       return res
     }
   }
   return {
     userInfo,
-    login,
+    getUserInfo,
     token
   }
 })

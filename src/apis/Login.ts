@@ -5,12 +5,9 @@ import requests from '@/utils/request'
  * @data  account 账号 password 密码
  * @return {*}
  */
-export const reqLogin = (account: string, password: string): any =>
+export const reqLogin = (data: object): any =>
   requests({
     method: 'post',
     url: '/login',
-    data: {
-      account,
-      password
-    }
+    data
   })

@@ -42,7 +42,7 @@ const goLogin = async (formEl: { validate: CallableFunction }) => {
   if (!formEl) return
   await formEl.validate(async (valid: boolean) => {
     if (valid) {
-      const res = await loginStore.login(formInfo)
+      const res = await loginStore.getUserInfo(formInfo)
       if (res.code === '1' || res === 'ok') {
         router.push('/')
         ElMessage.success('登录成功')
