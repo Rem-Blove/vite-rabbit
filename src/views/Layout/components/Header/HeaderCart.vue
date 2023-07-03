@@ -1,11 +1,35 @@
 <script setup lang="ts">
 import { useCartStore } from '@/stores/cart/index'
-import { computed } from 'vue'
+import { Ref, computed, ref, onMounted, watch } from 'vue'
+import { getToken } from '@/utils/token'
 
+interface U {
+  id: string
+  name: string
+  picture: string
+  price: number
+  count: number
+  attrsText: string
+  skuId: string
+}
+
+const cartList: Ref<U[]> = ref<U[]>([])
 const store = useCartStore()
+const token = getToken()
+onMounted(() => {
+  if (token) {
+    store.mergeCart()
+    cartList.value = store.cartList
+  } else {
+    cartList.value = store.localCartList
+  }
+})
+watch(() => store.cartList, newVal => {
+  cartList.value = newVal
+})
 // 计算总价
 const totalPrice = computed(() => {
-  return store.cartList.reduce((sum: number, cur: any) => {
+  return cartList.value.reduce((sum: number, cur: any) => {
     return sum + cur.price * cur.count
   }, 0)
 })
@@ -15,11 +39,11 @@ const totalPrice = computed(() => {
   <div class="cart">
     <a class="curr" href="javascript:;">
       <i class="iconfont icon-cart" />
-      <em>{{ store.cartList.length }}</em>
+      <em>{{ cartList.length }}</em>
     </a>
     <div class="layer">
       <div class="list">
-        <div class="item" v-for="i in store.cartList" :key="i">
+        <div class="item" v-for="i in cartList" :key="i.id">
           <RouterLink to="">
             <img :src="i.picture" >
             <div class="center">
@@ -38,10 +62,15 @@ const totalPrice = computed(() => {
       </div>
       <div class="foot">
         <div class="total">
-          <p>共 {{ store.cartList.length }} 件商品</p>
+          <p>共 {{ cartList.length }} 件商品</p>
           <p>&yen; {{ totalPrice }}.00</p>
         </div>
-        <el-button size="large" type="primary" @click="$router.push('/cartlist')">去购物车结算</el-button>
+        <el-button
+          size="large"
+          type="primary"
+          @click="$router.push('/cartlist')">
+          去购物车结算
+        </el-button>
       </div>
     </div>
   </div>

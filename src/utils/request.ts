@@ -39,7 +39,7 @@ requests.interceptors.response.use(
     return response.data
   },
   function (error) {
-    if (error.response.status === 401) {
+    if (error.response?.status === 401) {
       removeToken()
       router.push('/login')
     }
