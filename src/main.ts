@@ -6,7 +6,7 @@ import './style/common.scss'
 import VueLazyload from 'vue-lazyload'
 import Rem from '@/assets/Rem.webp'
 import { componentPlugin } from './components/index'
-import 'element-plus/es/components/message/style/css'
+import 'element-plus/theme-chalk/el-message.css'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 
 const pinia = createPinia()

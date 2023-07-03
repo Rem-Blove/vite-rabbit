@@ -1,52 +1,50 @@
 <script setup lang="ts">
 import { useCartStore } from '@/stores/cart/index'
-import { watch, computed } from 'vue'
+import { watch, computed, ref } from 'vue'
+import { getToken } from '@/utils/token'
+import { useRouter } from 'vue-router'
 
-interface U {
-  id: string
-  name: string
-  picture: string
-  price: number
-  count: number
-  selected: boolean
-  attrsText: string
-}
-
-let cartList: Array<U> = []
+const cartList: any = ref([])
 const store = useCartStore()
 watch(
   () => store.cartList,
   newVal => {
-    cartList = newVal
+    cartList.value = newVal
   },
   { immediate: true }
 )
 
-const isCheck = computed(() => {
-  return cartList.some(item => item.selected)
-})
 const isAllChecked = computed(() => {
-  return cartList.every(item => item.selected) && cartList.length !== 0
-})
-const handleCheckAllChange = () => {
-  cartList.forEach(item =>
-    item.selected ? (item.selected = false) : (item.selected = true)
+  return (
+    cartList.value.every((item: { selected: boolean }) => item.selected) &&
+    cartList.value.length !== 0
   )
+})
+const handleCheckAllChange = (i: { selected: boolean }) => {
+  i.selected = !i.selected
 }
 const selectedCheck = computed(() => {
-  return cartList.filter(item => item.selected)
+  return cartList.value.filter((item: { selected: boolean }) => item.selected)
 })
 
 const priceSelected = computed(() => {
-  return cartList
-    .filter(item => item.selected)
-    .reduce((sum: any, cur: any) => {
+  return cartList.value
+    .filter((item: { selected: boolean }) => item.selected)
+    .reduce((sum: number, cur: { price: number; count: number }) => {
       return sum + cur.price * cur.count
     }, 0)
 })
 const delCart = (i: { id: string }) => {
-  const index = cartList.findIndex(item => item.id === i.id)
-  cartList.splice(index, 1)
+  const index = cartList.value.findIndex(
+    (item: { id: string }) => item.id === i.id
+  )
+  cartList.value.splice(index, 1)
+}
+
+const token = getToken()
+const router = useRouter()
+const Orders = () => {
+  token ? router.push('/checkout') : router.push('/login')
 }
 </script>
 
@@ -72,13 +70,13 @@ const delCart = (i: { id: string }) => {
             <tr v-for="i in cartList" :key="i.id">
               <td>
                 <el-checkbox
-                  :checked="isCheck"
-                  @change="handleCheckAllChange" />
+                  :checked="i.selected"
+                  @change="handleCheckAllChange(i)" />
               </td>
               <td>
                 <div class="goods">
                   <RouterLink to="/">
-                    <img :src="i.picture">
+                    <img :src="i.picture" >
                   </RouterLink>
                   <div>
                     <p class="name ellipsis">
@@ -131,7 +129,9 @@ const delCart = (i: { id: string }) => {
           <span class="red">¥ {{ priceSelected }}.00</span>
         </div>
         <div class="total">
-          <el-button size="large" type="primary">下单结算</el-button>
+          <el-button size="large" type="primary" @click="Orders">
+            下单结算
+          </el-button>
         </div>
       </div>
     </div>

@@ -23,6 +23,16 @@ const routes = [
         path: '/detail/:id',
         name: 'detail',
         component: () => import('@/views/Detail/index.vue')
+      },
+      {
+        path: '/cartlist',
+        name: 'cartlist',
+        component: () => import('@/views/cart/index.vue')
+      },
+      {
+        path: '/checkout',
+        name: 'checkout',
+        component: () => import('@/views/Checkout/index.vue')
       }
     ]
   },
@@ -31,11 +41,7 @@ const routes = [
     name: 'login',
     component: () => import('@/views/Login/index.vue')
   },
-  {
-    path: '/cartlist',
-    name: 'cartlist',
-    component: () => import('@/views/cart/index.vue')
-  },
+
   {
     path: '/:pathMatch(.*)*',
     redirect: '/404'
