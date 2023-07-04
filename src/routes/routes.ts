@@ -42,6 +42,23 @@ const routes = [
       {
         path: 'paycallback', // 注意路径，必须是paycallback
         component: () => import('@/views/Pay/PayBack.vue')
+      },
+      {
+        path: 'member',
+        name: 'member',
+        component: () => import('@/views/Member/index.vue'),
+        children: [
+          {
+            path: '',
+            name: 'MemberInfo',
+            component: () => import('@/views/Member/MemberInfo/index.vue')
+          },
+          {
+            path: 'order',
+            name: 'Order',
+            component: () => import('@/views/Member/Order/index.vue')
+          }
+        ]
       }
     ]
   },
@@ -50,24 +67,7 @@ const routes = [
     name: 'login',
     component: () => import('@/views/Login/index.vue')
   },
-  {
-    path: '/member',
-    name: 'member',
-    component: () => import('@/views/Member/index.vue'),
-    children: [
-      {
-        path: '',
-        name: 'MemberInfo',
-        component: () => import('@/views/Member/MemberInfo/index.vue')
-      },
-      {
-        path: 'order',
-        name: 'Order',
-        component: () => import('@/views/Member/Order/index.vue')
-      }
-    ]
 
-  },
   {
     path: '/:pathMatch(.*)*',
     redirect: '/404'

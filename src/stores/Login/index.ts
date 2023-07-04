@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { reqLogin } from '@/apis/Login'
 import { setToken, getToken } from '@/utils/token'
-import { setUserName } from '@/utils/userInfo'
+import { setUserName, setAvatar } from '@/utils/userInfo'
 
 export const useLoginStore = defineStore('login', () => {
   const userInfo = ref({})
@@ -12,6 +12,7 @@ export const useLoginStore = defineStore('login', () => {
     if (res.code === '1') {
       userInfo.value = res.result
       setUserName(res.result.account)
+      setAvatar(res.result.avatar)
       // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (token.value) return 'ok'
       else setToken(res.result.token)
