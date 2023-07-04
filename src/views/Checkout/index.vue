@@ -1,6 +1,12 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import { getCheckoutInfoAPI } from '@/apis/Checkout'
+import { onMounted, ref, reactive } from 'vue'
+import {
+  getCheckoutInfoAPI,
+  addAddressAPI,
+  getAddressAPI
+} from '@/apis/Checkout'
+import { reqPostPay } from '@/apis/pay'
+import { useRouter } from 'vue-router'
 
 const checkInfo: any = ref({}) // 订单对象
 const curAddress: any = ref({}) // 地址对象
@@ -14,6 +20,88 @@ const CheckoutList = async () => {
 onMounted(() => {
   CheckoutList()
 })
+
+const toggleFlag = ref(false)
+const upDataAddresses = (item: { isDefault: number }) => {
+  curAddress.value.userAddresses.forEach((e: { isDefault: number }) => {
+    e.isDefault = 1
+  })
+  item.isDefault = 0
+  toggleFlag.value = false
+}
+const addFlag = ref(false)
+
+let userForm = reactive({
+  receiver: '',
+  contact: '',
+  provinceCode: '',
+  cityCode: '',
+  countyCode: '',
+  address: '',
+  postalCode: '',
+  addressTags: '',
+  isDefault: '',
+  fullLocation: ''
+})
+
+const getAddress = () => {
+  const res = getAddressAPI()
+  if (res.code === '1') {
+    curAddress.value.userAddresses = res.result
+  }
+}
+const addAddress = async () => {
+  const res = await addAddressAPI(userForm)
+  if (res.code === '1') {
+    addFlag.value = false
+    getAddress()
+  }
+}
+const addAddressFlag = () => {
+  // 初始化数据
+  userForm = reactive({
+    receiver: '',
+    contact: '',
+    provinceCode: '',
+    cityCode: '',
+    countyCode: '',
+    address: '',
+    postalCode: '',
+    addressTags: '',
+    isDefault: '',
+    fullLocation: ''
+  })
+  addFlag.value = true
+}
+
+const router = useRouter()
+const submitOrder = async () => {
+  const res = await reqPostPay({
+    deliveryTimeType: 1,
+    payType: 1,
+    payChannel: 1,
+    buyerMessage: '',
+    goods: curAddress.value.goods.map(item => {
+      return {
+        skuId: item.skuId,
+        count: item.count
+      }
+    }),
+    addressId: curAddress.value.userAddresses.filter(
+      item => item.isDefault === 0
+    )[0].id
+  })
+  if (res.code === '1') {
+    const orderId = res.result.id
+    router.push({
+      name: 'pay',
+      query: {
+        id: orderId
+      }
+    })
+    alert('提交成功')
+  }
+}
 </script>
 
 <template>
@@ -28,7 +116,10 @@ onMounted(() => {
               <div class="none" v-if="!curAddress">
                 您需要先添加收货地址才可提交订单。
               </div>
-              <ul v-else>
+              <ul
+                v-for="i in curAddress.userAddresses"
+                :key="i.id"
+                v-show="i.isDefault === 0">
                 <li>
                   <span>
                     收
@@ -37,23 +128,23 @@ onMounted(() => {
                     <i />
                     人：
                   </span>
-                  {{ curAddress.receiver }}
+                  {{ i.receiver }}
                 </li>
                 <li>
                   <span>联系方式：</span>
-                  {{ curAddress.contact }}
+                  {{ i.contact }}
                 </li>
                 <li>
                   <span>收货地址：</span>
-                  {{ curAddress.fullLocation }} {{ curAddress.address }}
+                  {{ i.fullLocation }} {{ i.address }}
                 </li>
               </ul>
             </div>
             <div class="action">
-              <el-button size="large" @click="toggleFlag = false">
+              <el-button size="large" @click="toggleFlag = true">
                 切换地址
               </el-button>
-              <el-button size="large" @click="addFlag = true">
+              <el-button size="large" @click="addAddressFlag">
                 添加地址
               </el-button>
             </div>
@@ -137,13 +228,107 @@ onMounted(() => {
         </div>
         <!-- 提交订单 -->
         <div class="submit">
-          <el-button type="primary" size="large">提交订单</el-button>
+          <el-button type="primary" size="large" @click="submitOrder">
+            提交订单
+          </el-button>
         </div>
       </div>
     </div>
   </div>
   <!-- 切换地址 -->
+  <el-dialog v-model="toggleFlag" title="切换收货地址" width="30%" center>
+    <div class="addressWrapper">
+      <div
+        class="text item"
+        v-for="item in checkInfo.userAddresses"
+        :key="item.id">
+        <ul @click="upDataAddresses(item)">
+          <li>
+            <span>
+              收
+              <i />
+              货
+              <i />
+              人：
+            </span>
+            {{ item.receiver }}
+          </li>
+          <li>
+            <span>联系方式：</span>
+            {{ item.contact }}
+          </li>
+          <li>
+            <span>收货地址：</span>
+            {{ item.fullLocation + item.address }}
+          </li>
+        </ul>
+      </div>
+    </div>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="toggleFlag = false">取消</el-button>
+        <el-button type="primary" @click="toggleFlag = false">确定</el-button>
+      </span>
+    </template>
+  </el-dialog>
   <!-- 添加地址 -->
+  <el-dialog v-model="addFlag" title="添加地址" width="50%" center>
+    <div style="height: 300px; overflow-y: auto">
+      <el-form :model="userForm" :inline="true" size="default">
+        <el-form-item label="收货人名">
+          <el-input v-model="userForm.receiver" />
+        </el-form-item>
+        <el-form-item label="联系方式">
+          <el-input v-model="userForm.contact" />
+        </el-form-item>
+        <el-form-item label="省份编码">
+          <el-input v-model="userForm.provinceCode" />
+        </el-form-item>
+        <el-form-item label="城市编码">
+          <el-input v-model="userForm.cityCode" />
+        </el-form-item>
+        <el-form-item label="地区编码">
+          <el-input v-model="userForm.countyCode" />
+        </el-form-item>
+        <el-form-item label="详细地址">
+          <el-input v-model="userForm.address" />
+        </el-form-item>
+        <el-form-item label="邮政编码">
+          <el-input v-model="userForm.postalCode" />
+        </el-form-item>
+        <el-form-item label="地址标签">
+          <el-select
+            v-model="userForm.addressTags"
+            class="m-2"
+            placeholder="家，公司，学校"
+            size="large">
+            <el-option label="家" value="家" />
+            <el-option label="公司" value="公司" />
+            <el-option label="学校" value="学校" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="地址默认">
+          <el-select
+            v-model="userForm.isDefault"
+            class="m-2"
+            placeholder="默认0:,不默认1"
+            size="large">
+            <el-option label="1" value="1" />
+            <el-option label="0" value="0" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="完整地址">
+          <el-input v-model="userForm.fullLocation" />
+        </el-form-item>
+      </el-form>
+    </div>
+    <template #footer>
+      <span>
+        <el-button @click="addFlag = false">取消</el-button>
+        <el-button type="primary" @click="addAddress">确定</el-button>
+      </span>
+    </template>
+  </el-dialog>
 </template>
 
 <style scoped lang="scss">
@@ -330,7 +515,7 @@ onMounted(() => {
 }
 
 .addressWrapper {
-  max-height: 500px;
+  max-height: 400px;
   overflow-y: auto;
 }
 

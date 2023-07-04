@@ -20,19 +20,28 @@ const routes = [
         component: () => import('@/views/Layout/SubCategory/index.vue')
       },
       {
-        path: '/detail/:id',
+        path: 'detail/:id',
         name: 'detail',
         component: () => import('@/views/Detail/index.vue')
       },
       {
-        path: '/cartlist',
+        path: 'cartlist',
         name: 'cartlist',
         component: () => import('@/views/cart/index.vue')
       },
       {
-        path: '/checkout',
+        path: 'checkout',
         name: 'checkout',
         component: () => import('@/views/Checkout/index.vue')
+      },
+      {
+        path: 'pay',
+        name: 'pay',
+        component: () => import('@/views/Pay/index.vue')
+      },
+      {
+        path: 'paycallback', // 注意路径，必须是paycallback
+        component: () => import('@/views/Pay/PayBack.vue')
       }
     ]
   },
