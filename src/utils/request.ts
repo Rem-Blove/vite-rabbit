@@ -47,7 +47,7 @@ requests.interceptors.response.use(
     // 对响应错误做点什么
     ElMessage({
       type: 'error',
-      message: error.response.data.msg
+      message: error.response?.data ? error.response.data.msg : '请求失败,刷新页面'
     })
     return Promise.reject(error)
   }

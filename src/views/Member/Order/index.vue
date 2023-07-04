@@ -1,4 +1,10 @@
-<script setup>
+<script setup lang="ts">
+import { getUserOrder } from '@/apis/member'
+import { ref, onMounted, computed } from 'vue'
+import dayjs from 'dayjs'
+import type{ Order } from '@/apis/model/Member/order'
+
+const total = ref(0)
 // tab列表
 const tabTypes = [
   { name: 'all', label: '全部订单' },
@@ -9,16 +15,71 @@ const tabTypes = [
   { name: 'complete', label: '已完成' },
   { name: 'cancel', label: '已取消' }
 ]
-// 订单列表
-const orderList = []
 
+// 订单列表
+const orderList = ref([])
+const params = ref({
+  orderState: 0,
+  page: 1,
+  pageSize: 5
+})
+const getUserOrderList = async () => {
+  const res = await getUserOrder(params.value)
+  orderList.value = res.result.items
+  total.value = res.result.counts
+}
+onMounted(() => {
+  getUserOrderList()
+})
+
+// 计算剩余时间 秒转化为时分秒
+const formattedOrderList = computed(() => {
+  return orderList.value.map((order: Order) => {
+    const formatTime = dayjs.unix(order.countdown).format('mm分:ss秒')
+    return {
+      ...order,
+      formatTime
+    }
+  })
+})
+
+const handleTabChange = (index: number) => {
+  params.value.orderState = index
+  getUserOrderList()
+}
+const handleSizeChange = (sizes: number) => {
+  params.value.pageSize = sizes
+  getUserOrderList()
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+const handleCurrentChange = (page: number) => {
+  params.value.page = page
+  getUserOrderList()
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+// 创建格式化函数
+const fomartPayState = (payState: string | number) => {
+  const stateMap: { [key: string]: string } = {
+    1: '待付款',
+    2: '待发货',
+    3: '待收货',
+    4: '待评价',
+    5: '已完成',
+    6: '已取消'
+  }
+  return stateMap[String(payState)]
+}
 </script>
 
 <template>
   <div class="order-container">
-    <el-tabs>
+    <el-tabs @tab-change="handleTabChange">
       <!-- tab切换 -->
-      <el-tab-pane v-for="item in tabTypes" :key="item.name" :label="item.label" />
+      <el-tab-pane
+        v-for="item in tabTypes"
+        :key="item.name"
+        :label="item.label" />
 
       <div class="main-container">
         <div class="holder-container" v-if="orderList.length === 0">
@@ -26,14 +87,17 @@ const orderList = []
         </div>
         <div v-else>
           <!-- 订单列表 -->
-          <div class="order-item" v-for="order in orderList" :key="order.id">
+          <div
+            class="order-item"
+            v-for="order in formattedOrderList"
+            :key="order.id">
             <div class="head">
               <span>下单时间：{{ order.createTime }}</span>
               <span>订单编号：{{ order.id }}</span>
               <!-- 未付款，倒计时时间还有 -->
               <span class="down-time" v-if="order.orderState === 1">
-                <i class="iconfont icon-down-time"/>
-                <b>付款截止: {{order.countdown}}</b>
+                <i class="iconfont icon-down-time" />
+                <b>付款截止: {{ order.formatTime }}</b>
               </span>
             </div>
             <div class="body">
@@ -57,7 +121,7 @@ const orderList = []
                 </ul>
               </div>
               <div class="column state">
-                <p>{{ order.orderState }}</p>
+                <p>{{ fomartPayState(order.orderState) }}</p>
                 <p v-if="order.orderState === 3">
                   <a href="javascript:;" class="green">查看物流</a>
                 </p>
@@ -74,11 +138,16 @@ const orderList = []
                 <p>在线支付</p>
               </div>
               <div class="column action">
-                <el-button  v-if="order.orderState === 1" type="primary"
+                <el-button
+                  v-if="order.orderState === 1"
+                  type="primary"
                   size="small">
                   立即付款
                 </el-button>
-                <el-button v-if="order.orderState === 3" type="primary" size="small">
+                <el-button
+                  v-if="order.orderState === 3"
+                  type="primary"
+                  size="small">
                   确认收货
                 </el-button>
                 <p><a href="javascript:;">查看详情</a></p>
@@ -88,20 +157,26 @@ const orderList = []
                 <p v-if="[4, 5].includes(order.orderState)">
                   <a href="javascript:;">申请售后</a>
                 </p>
-                <p v-if="order.orderState === 1"><a href="javascript:;">取消订单</a></p>
+                <p v-if="order.orderState === 1">
+                  <a href="javascript:;">取消订单</a>
+                </p>
               </div>
             </div>
           </div>
           <!-- 分页 -->
           <div class="pagination-container">
-            <el-pagination background layout="prev, pager, next" />
+            <el-pagination
+              background
+              :total="total"
+              :page-sizes="[10, 15, 20]"
+              layout="prev, pager, next, total, sizes"
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange" />
           </div>
         </div>
       </div>
-
     </el-tabs>
   </div>
-
 </template>
 
 <style scoped lang="scss">
@@ -171,7 +246,7 @@ const orderList = []
       text-align: center;
       padding: 20px;
 
-      >p {
+      > p {
         padding-top: 10px;
       }
 

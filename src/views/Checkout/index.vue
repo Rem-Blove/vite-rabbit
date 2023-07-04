@@ -44,8 +44,8 @@ let userForm = reactive({
   fullLocation: ''
 })
 
-const getAddress = () => {
-  const res = getAddressAPI()
+const getAddress = async () => {
+  const res = await getAddressAPI()
   if (res.code === '1') {
     curAddress.value.userAddresses = res.result
   }
@@ -81,14 +81,16 @@ const submitOrder = async () => {
     payType: 1,
     payChannel: 1,
     buyerMessage: '',
-    goods: curAddress.value.goods.map(item => {
-      return {
-        skuId: item.skuId,
-        count: item.count
+    goods: curAddress.value.goods.map(
+      (item: { skuId: string; count: number }) => {
+        return {
+          skuId: item.skuId,
+          count: item.count
+        }
       }
-    }),
+    ),
     addressId: curAddress.value.userAddresses.filter(
-      item => item.isDefault === 0
+      (item: { isDefault: number }) => item.isDefault === 0
     )[0].id
   })
   if (res.code === '1') {

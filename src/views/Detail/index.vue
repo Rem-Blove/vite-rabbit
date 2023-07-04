@@ -21,7 +21,7 @@ onMounted(() => {
   getDetailList()
 })
 
-let skuObj: any = {}
+let skuObj: { skuId?: number; specsText?: string } = {}
 const skuChange = (sku: object) => {
   skuObj = sku
 }

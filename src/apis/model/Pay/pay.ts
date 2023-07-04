@@ -1,4 +1,8 @@
 export interface PayTs {
+  code: string
+  result: any
+  code: string
+  code: string
   /**
    * 收货地址id
    */

@@ -5,13 +5,13 @@ import { getOrderAPI } from '@/apis/pay'
 import { useRoute } from 'vue-router'
 import { useCountDown } from '@/Composables/useCountDown'
 
-const payInfo = ref({})
-const cartStore = useCartStore()
+const payInfo: any = ref({})
+const cartStore: any = useCartStore()
 const route = useRoute()
 const { formatTime, fun } = useCountDown()
 
 const getOrder = async () => {
-  const res = await getOrderAPI(route.query.id)
+  const res = await getOrderAPI(route.query.id as string)
   if (res.code === '1') {
     payInfo.value = res.result
     fun(res.result.countdown)
@@ -26,7 +26,6 @@ const baseURL = 'http://pcapi-xiaotuxian-front-devtest.itheima.net/'
 const backURL = 'http://127.0.0.1:5173/paycallback'
 const redirectUrl = encodeURIComponent(backURL)
 const payUrl = `${baseURL}pay/aliPay?orderId=${route.query.id}&redirect=${redirectUrl}`
-
 </script>
 
 <template>

@@ -13,3 +13,16 @@ export const getLikeListAPI = (limit = 4): any => {
     }
   })
 }
+
+/**
+ * @description: 获取我的全部订单列表
+ * @param {*} { page: 当前页, pageSize: 页数, orderState: 订单状态}
+ * @return {*}
+ */
+export const getUserOrder = (params: object): any => {
+  return requests({
+    url: '/member/order',
+    method: 'GET',
+    params
+  })
+}
