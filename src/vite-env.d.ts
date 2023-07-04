@@ -7,3 +7,4 @@ declare module '*.vue' {
   export default component
 }
 declare module 'nprogress'
+declare module 'vite-plugin-eslint'

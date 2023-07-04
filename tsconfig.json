@@ -10,6 +10,7 @@
       "@/*": ["src/*"],
     },
     "skipLibCheck": true,
+    "allowJs": true,
 
     /* Bundler mode */
     "moduleResolution": "node",

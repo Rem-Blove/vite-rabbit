@@ -4,7 +4,7 @@ import { ref, onMounted } from 'vue'
 import { getUserName, getAvatar } from '@/utils/userInfo'
 import GoodsItem from '@/views/Layout/Home/components/HomeGoods.vue'
 
-const likeList = ref([])
+const likeList: any = ref([])
 const getLikeList = async () => {
   const res = await getLikeListAPI()
   res.code === '1' && (likeList.value = res.result)

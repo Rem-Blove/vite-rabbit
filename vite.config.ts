@@ -10,6 +10,7 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: './',
   plugins: [
     vue(),
     eslint(),
@@ -23,7 +24,7 @@ export default defineConfig({
   resolve: {
     // ↓路径别名
     alias: {
-      '@': resolve(__dirname, './src')
+      '@': resolve(__dirname, 'src')
     }
   },
   css: {
