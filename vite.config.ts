@@ -24,7 +24,7 @@ export default defineConfig({
   resolve: {
     // ↓路径别名
     alias: {
-      '@': resolve(__dirname, '/src')
+      '@': resolve(__dirname, './src')
     }
   },
   css: {
