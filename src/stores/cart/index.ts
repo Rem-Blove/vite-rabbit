@@ -8,15 +8,19 @@ import {
 } from '@/apis/cart'
 import { getToken } from '@/utils/token'
 import { ElMessage } from 'element-plus'
+import { type lCLType } from '@/types/Cart'
 
 export const useCartStore = defineStore(
   'cart',
   () => {
-    const localCartList: any = ref([]) // 本地购物车数据
-    const cartList: any = ref([]) // 服务器返回用户的购物车数据
+    const localCartList = ref<lCLType>(['']) // 本地购物车数据
+    const cartList = ref([]) // 服务器返回用户的购物车数据
     const token = getToken()
     // 本地添加或者接口添加购物车
-    const addCart = async (val: any, num: Ref): Promise<void> => {
+    const addCart = async (
+      val: { skuId: string, count: number },
+      num: Ref
+    ): Promise<void> => {
       if (token) {
         const res = await insertCartAPI(val)
         if (res.code === '1') {
@@ -26,8 +30,9 @@ export const useCartStore = defineStore(
           ElMessage.error('添加失败')
         }
       } else {
+        // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
         const item = localCartList.value.find(
-          (item: any) => item.skuId === val.skuId
+          (item: { skuId: string }) => item.skuId === val.skuId
         )
         if (item) {
           // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
@@ -37,7 +42,7 @@ export const useCartStore = defineStore(
         }
       }
     }
-    const delCart = async (skuId: any): Promise<void> => {
+    const delCart = async (skuId: string[]): Promise<void> => {
       if (token) {
         const res = await delCartAPI(skuId)
         if (res.code === '1') {
@@ -60,15 +65,17 @@ export const useCartStore = defineStore(
     // 合并购物车
     const mergeCart = async (): Promise<void> => {
       if (localCartList.value.length === 0) return
-      const cartInfo = localCartList.value.map((item: any) => {
-        return {
-          skuId: item.skuId,
-          selected: item.selected,
-          count: item.count
+      const cartInfo = localCartList.value.map(
+        (item: { skuId: string, selected: boolean, count: number }) => {
+          return {
+            skuId: item.skuId,
+            selected: item.selected,
+            count: item.count
+          }
         }
-      })
+      )
       const res = await mergeCartAPI(cartInfo)
-      res.code === '1' && (localCartList.value = [])
+      res.code === '1' && (localCartList.value = [] as unknown as lCLType)
       void getCartList()
     }
     return {

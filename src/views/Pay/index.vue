@@ -5,8 +5,12 @@ import { getOrderAPI } from '@/apis/pay'
 import { useRoute } from 'vue-router'
 import { useCountDown } from '@/Composables/useCountDown'
 
-const payInfo: any = ref({})
-const cartStore: any = useCartStore()
+interface pIType {
+  payMoney: number
+}
+
+const payInfo = ref<pIType>({} as pIType)
+const cartStore = useCartStore()
 const route = useRoute()
 const { formatTime, fun } = useCountDown()
 

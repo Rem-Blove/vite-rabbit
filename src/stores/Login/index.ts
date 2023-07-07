@@ -7,7 +7,7 @@ import { setUserName, setAvatar } from '@/utils/userInfo'
 export const useLoginStore = defineStore('login', () => {
   const userInfo = ref({})
   const token = ref(getToken())
-  const getUserInfo = async ({ userName, password }: any): Promise<any> => {
+  const getUserInfo = async ({ userName, password }: { userName: string, password: string }): Promise<any> => {
     const res = await reqLogin({ account: userName, password })
     if (res.code === '1') {
       userInfo.value = res.result

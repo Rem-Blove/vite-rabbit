@@ -34,6 +34,8 @@ export interface Result {
    * 一级分类图片
    */
   picture: null
+
+  items: []
 }
 
 export interface Child {

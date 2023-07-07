@@ -41,7 +41,7 @@ const addCart = () => {
     selected: true
   }
   if (skuObj.skuId) {
-    cartStore.addCart(goods, num)
+    cartStore.addCart(goods as any, num)
   } else {
     alert('请选择规格')
   }

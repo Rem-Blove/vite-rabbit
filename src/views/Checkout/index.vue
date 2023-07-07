@@ -7,9 +7,10 @@ import {
 } from '@/apis/Checkout'
 import { reqPostPay } from '@/apis/pay'
 import { useRouter } from 'vue-router'
+import { cAType, cIType } from '@/types/checkout'
 
-const checkInfo: any = ref({}) // 订单对象
-const curAddress: any = ref({}) // 地址对象
+const checkInfo = ref<cAType>({} as cAType) // 订单对象
+const curAddress = ref<cIType>({} as cIType) // 地址对象
 const CheckoutList = async () => {
   const res = await getCheckoutInfoAPI()
   if (res.code === '1') {

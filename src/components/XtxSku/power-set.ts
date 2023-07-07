@@ -1,4 +1,4 @@
-export default function bwPowerSet (originalSet: any): any {
+export default function bwPowerSet (originalSet: string): any {
   const subSets = []
 
   // We will have 2^n possible combinations (where n is a length of original set).

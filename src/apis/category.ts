@@ -40,7 +40,7 @@ export const reqGetCategorySubList = (id: string): Promise<ResultObject> => {
    }
  * @return {*}
  */
-export const reqGetSubCategoryAPI = (data: object): any => {
+export const reqGetSubCategoryAPI = (data: object): Promise<ResultObject> => {
   return requests({
     method: 'post',
     url: '/category/goods/temporary',
